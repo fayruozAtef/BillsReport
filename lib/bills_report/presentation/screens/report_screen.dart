@@ -1,17 +1,59 @@
-import 'package:bills_report/bills_report/domain/entities/branch.dart';
-import 'package:bills_report/bills_report/presentation/screens/branch_details_screen.dart';
+import 'dart:async';
+import 'dart:io';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../core/network/check_network_connection.dart';
 import '../../../core/services/services_locator.dart';
 import '../components/report_summery.dart';
 import '../controller/branch_bloc.dart';
 import '../controller/branch_event.dart';
 import '../components/data_table.dart';
 
-class ReportScreen extends StatelessWidget {
+class ReportScreen extends StatefulWidget {
   const ReportScreen({Key? key}) : super(key: key);
+
+  @override
+  State<ReportScreen> createState() => _ReportScreenState();
+}
+
+class _ReportScreenState extends State<ReportScreen> {
+  bool flag=false;
+  Future<void> checkConnection() async{
+    try {
+      final result = await InternetAddress.lookup('google.com');
+      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        flag=true;
+      }
+    } on SocketException catch (_) {
+      Fluttertoast.showToast(
+          msg: "لا يوجد اتصال بالأنترنت برجاء الاتصال و المحاولة مرة أخرى",
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 5,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 18.0
+      );
+    }
+  }
+  @override
+  void initState() {
+    super.initState();
+    checkConnection();
+    ConnectionUtil connectionStatus = ConnectionUtil.getInstance();
+    connectionStatus.initialize();
+    connectionStatus.connectionChange.listen((event) {
+      if(event==true) {
+        flag = event;
+        setState(() {});
+      }
+      print(event);
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -38,13 +80,13 @@ class ReportScreen extends StatelessWidget {
                           color: Colors.black45,
                         ),
                       ),
-                      DataTableBody(),
-
-
-                    ]),
+                      if(flag)
+                        DataTableBody(),
+                ]),
                   ),
                   const Spacer(),
-                  ReportSummeryScreen(),
+                  if(flag)
+                    ReportSummeryScreen(),
                 ],
               )
           ),

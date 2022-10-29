@@ -56,13 +56,13 @@ class DataTableBody extends StatelessWidget {
               return (index%2==0)? Colors.teal[100]: null;
             }),
         cells: [
-          DataCell(Text(branch.name1,overflow: TextOverflow.ellipsis, maxLines: 1,),onTap: (){_navigateToDetails(context,branch.name1);}),
-          DataCell(Center(child: Text("${branch.numberOfInvoices}",overflow: TextOverflow.ellipsis,)),onTap: (){_navigateToDetails(context,branch.name1);}),
-          DataCell(Center(child: Text("${branch.salesAmount}",overflow: TextOverflow.ellipsis, )),onTap: (){_navigateToDetails(context,branch.name1);}),
+          DataCell(Text(branch.name1,overflow: TextOverflow.ellipsis, maxLines: 1,),onTap: (){_navigateToDetails(context,branch);}),
+          DataCell(Center(child: Text("${branch.numberOfInvoices}",overflow: TextOverflow.ellipsis,)),onTap: (){_navigateToDetails(context,branch);}),
+          DataCell(Center(child: Text("${branch.salesAmount}",overflow: TextOverflow.ellipsis, )),onTap: (){_navigateToDetails(context,branch);}),
         ]);
   }
 
-  void _navigateToDetails(BuildContext context,String title) {
-    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => BranchDetailsScreen(title: title,), ));
+  void _navigateToDetails(BuildContext context,Branch branch) {
+    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => BranchDetailsScreen(branch: branch,), ));
   }
 }

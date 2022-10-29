@@ -1,8 +1,8 @@
 import 'package:bills_report/bills_report/data/data_source/branch_remote_datasource.dart';
 import 'package:bills_report/bills_report/domain/entities/bills_report.dart';
-import 'package:bills_report/bills_report/domain/entities/branch.dart';
-import 'package:bills_report/bills_report/domain/entities/report_summery.dart';
+import 'package:bills_report/bills_report/domain/entities/branch_details.dart';
 import 'package:bills_report/bills_report/domain/repository/basic_branch_repository.dart';
+import 'package:bills_report/bills_report/domain/use_cases/get_branch_details_usecase.dart';
 import 'package:bills_report/core/error/failure.dart';
 import 'package:dartz/dartz.dart';
 import '../../../core/error/exception.dart';
@@ -26,9 +26,10 @@ class BranchRepository extends BasicBranchRepository{
   }
 
   @override
-  Future<Either<Failure, ReportSummery>> getReportSummery() async{
-    final result =await basicBranchRemoteDataSource.getReportSummery();
+  Future<Either<Failure, BranchDetails>> getBranchDetails(GetBranchDetailsParameters parameters) async{
+    final result =await basicBranchRemoteDataSource.getBranchDetails(parameters);
     try{
+      print('Result is --> '+result.salesAmount.toString());
       return Right(result);
     }on ServerException catch(fail){
       return Left(ServerFailure(message: fail.errorMessageModel.statusMessage));

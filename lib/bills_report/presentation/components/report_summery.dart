@@ -31,7 +31,7 @@ class ReportSummeryScreen extends StatelessWidget {
                       Text('إجمالى عدد الفواتير : ',
                           style: GoogleFonts.abrilFatface(fontSize: 20.0)),
                       const SizedBox(width: 10.0,),
-                      Text('${state.reportSummery!.totalNumberOfInvoices}',
+                      Text('${state.reportSummery.totalNumberOfInvoices}',
                           style: GoogleFonts.abrilFatface(fontSize: 16.0)),
                     ],
                   ),
@@ -44,7 +44,7 @@ class ReportSummeryScreen extends StatelessWidget {
                           style: GoogleFonts.abrilFatface(fontSize: 20.0)),
 
                       const SizedBox(width: 10.0,),
-                      Text('${state.reportSummery!.totalSalesAmount}',
+                      Text('${state.reportSummery.totalSalesAmount}',
                           style: GoogleFonts.abrilFatface(fontSize: 16.0)),
                     ],
                   ),
