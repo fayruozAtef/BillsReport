@@ -7,9 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hexcolor/hexcolor.dart';
-
-import '../../../core/network/check_network_connection.dart';
+import '../../../core/cach_helper/cach_helper.dart';
 import '../../../core/services/services_locator.dart';
+import '../../../core/utils/app_constant.dart';
 
 class BranchDetailsScreen extends StatefulWidget {
   const BranchDetailsScreen({Key? key, required this.branch}) : super(key: key);
@@ -20,6 +20,7 @@ class BranchDetailsScreen extends StatefulWidget {
 }
 
 class _BranchDetailsScreenState extends State<BranchDetailsScreen> {
+  final bool? isArabic=CashHelper.getBoolData(key: isArabicLanguage);
   bool flag=false;
   Future<void> checkConnection() async{
     try {
@@ -71,28 +72,31 @@ class _BranchDetailsScreenState extends State<BranchDetailsScreen> {
                   padding: const EdgeInsets.all(10.0),
                   child: DataTable(
                     showBottomBorder: true,
-                    columns: const [
+                    columns:  [
                       DataColumn(
                           numeric: false,
-                          label: Text('القسم',
-                              style: TextStyle(
+                          label: Text(
+                              (isArabic!)?'القسم':"Department",
+                              style:const TextStyle(
                                   fontSize: 18.0,
                                   fontWeight: FontWeight.bold,
-                                  color: Colors.teal))),
+                                  color: Colors.teal,),),),
                       DataColumn(
                           numeric: true,
-                          label: Text('الأجمالى ',
-                              style: TextStyle(
+                          label: Text(
+                              (isArabic!)?'الأجمالى ':"Total",
+                              style: const TextStyle(
                                   fontSize: 18.0,
                                   fontWeight: FontWeight.bold,
-                                  color: Colors.teal))),
+                                  color: Colors.teal,),),),
                       DataColumn(
                           numeric: true,
-                          label: Text('الفواتير',
-                              style: TextStyle(
+                          label: Text(
+                              (isArabic!)?'الفواتير':"Bills",
+                              style:const TextStyle(
                                   fontSize: 18.0,
                                   fontWeight: FontWeight.bold,
-                                  color: Colors.teal))),
+                                  color: Colors.teal,),),),
                     ],
                     rows: [
                       DataRow(
@@ -101,23 +105,22 @@ class _BranchDetailsScreenState extends State<BranchDetailsScreen> {
                                 return  HexColor('#c0efef');
                               }),
                           cells: [
-                            const DataCell(
-                              Text('المبيعات',style: TextStyle(fontSize: 17.0),),
+                            DataCell(
+                              Text((isArabic!)?'المبيعات':"Payment",style:const TextStyle(fontSize: 17.0),),
                             ),
                         DataCell(
-                              Text(state.branchDetailsData!.salesAmount!
-                                  .toString()),
+                              Text(state.branchDetailsData!.salesAmount.toString()),
                             ),
-                        DataCell(Center(child: Text(state.branchDetailsData!.numOfInvoicesSales!.toString())))
+                        DataCell(Center(child: Text(state.branchDetailsData!.numOfInvoicesSales.toString())))
                           ]),
                       DataRow(cells: [
-                            const DataCell(
-                              Text('الضرائب',style: TextStyle(fontSize: 17.0),),
+                             DataCell(
+                              Text((isArabic!)?'الضرائب':"Taxes",style: const TextStyle(fontSize: 17.0),),
                             ),
                         DataCell(
-                              Text(state.branchDetailsData!.totalTaxes!.toString()),
+                              Text(state.branchDetailsData!.totalTaxes.toString()),
                             ),
-                        DataCell(Center(child: Text(state.branchDetailsData!.numOfInvoicesTaxes!.toString())))
+                        DataCell(Center(child: Text(state.branchDetailsData!.numOfInvoicesTaxes.toString())))
                           ]),
                       DataRow(
                           color: MaterialStateProperty.resolveWith<Color?>(
@@ -125,22 +128,22 @@ class _BranchDetailsScreenState extends State<BranchDetailsScreen> {
                                 return HexColor('#c0efef');
                               }),
                           cells: [
-                           const DataCell(
-                              Text('المرتجعات',style: TextStyle(fontSize: 17.0),),
+                            DataCell(
+                              Text((isArabic!)?'المرتجعات':"Returns",style: const TextStyle(fontSize: 17.0),),
                             ),
                         DataCell(
-                              Text(state.branchDetailsData!.totalReturns!.toString()),
+                              Text(state.branchDetailsData!.totalReturns.toString()),
                             ),
-                        DataCell(Center(child: Text(state.branchDetailsData!.numOfInvoicesReturns!.toString())))
+                        DataCell(Center(child: Text(state.branchDetailsData!.numOfInvoicesReturns.toString())))
                           ]),
                       DataRow(cells: [
-                            const DataCell(
-                              Text('الخصم',style: TextStyle(fontSize: 17.0),),
+                             DataCell(
+                              Text((isArabic!)?'الخصم':"Discount",style: const TextStyle(fontSize: 17.0),),
                             ),
                         DataCell(
-                              Text(state.branchDetailsData!.totalDis!.toString()),
+                              Text(state.branchDetailsData!.totalDis.toString()),
                             ),
-                        DataCell(Center(child: Text(state.branchDetailsData!.numOfInvoicesDis!.toString())))
+                        DataCell(Center(child: Text(state.branchDetailsData!.numOfInvoicesDis.toString())))
                           ]),
 
                     ],

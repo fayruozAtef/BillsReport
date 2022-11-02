@@ -6,8 +6,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../core/cach_helper/cach_helper.dart';
 import '../../../core/network/check_network_connection.dart';
 import '../../../core/services/services_locator.dart';
+import '../../../core/utils/app_constant.dart';
 import '../components/report_summery.dart';
 import '../controller/branch_bloc.dart';
 import '../controller/branch_event.dart';
@@ -40,6 +42,7 @@ class _ReportScreenState extends State<ReportScreen> {
       );
     }
   }
+  final bool? isArabic=CashHelper.getBoolData(key: isArabicLanguage);
   @override
   void initState() {
     super.initState();
@@ -69,7 +72,7 @@ class _ReportScreenState extends State<ReportScreen> {
                     child: ListView(children: <Widget>[
                       Center(
                           child: Text(
-                            'تقرير',
+                            (isArabic!)?'تقرير':"Reports",
                             style: GoogleFonts.acme(
                                 fontSize: 30.0, fontWeight: FontWeight.w700),
                           )),

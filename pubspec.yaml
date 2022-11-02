@@ -49,6 +49,7 @@ dependencies:
   fluttertoast: ^8.1.1
   connectivity_plus: ^2.3.9
   data_connection_checker_nulls: ^0.0.2
+  shared_preferences: ^2.0.15
 
 
 

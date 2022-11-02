@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../core/cach_helper/cach_helper.dart';
+import '../../../core/utils/app_constant.dart';
 import '../../../core/utils/enums.dart';
 import '../../domain/entities/branch.dart';
 import '../controller/branch_bloc.dart';
@@ -7,10 +9,10 @@ import '../controller/branch_state.dart';
 import '../screens/branch_details_screen.dart';
 
 class DataTableBody extends StatelessWidget {
-  const DataTableBody({Key? key}) : super(key: key);
-
+  DataTableBody({Key? key}) : super(key: key);
+  final bool? isArabic=CashHelper.getBoolData(key: isArabicLanguage);
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context){
     return BlocBuilder<BranchBloc, BranchState>(
      buildWhen: (previous, current)=>previous.getBranchesState !=current.getBranchesState,
      builder: (context, state) {
@@ -19,28 +21,31 @@ class DataTableBody extends StatelessWidget {
           return const Center(child: CircularProgressIndicator(),);
         case RequestState.loaded:
           return DataTable(
-            columns: const [
+            columns:  [
               DataColumn(
                   numeric: false,
-                  label: Text('الفرع',
-                      style: TextStyle(
+                  label: Text(
+                      (isArabic!)? 'الفرع':"Branch",
+                      style: const TextStyle(
                           fontSize: 18.0,
                           fontWeight: FontWeight.bold,
                           color: Colors.teal))),
               DataColumn(
                   numeric: true,
-                  label: Text('عدد الفواتير',
-                      style: TextStyle(
+                  label: Text(
+                      (isArabic!)? 'عدد الفواتير':"Bills count",
+                      style: const TextStyle(
                           fontSize: 18.0,
                           fontWeight: FontWeight.bold,
-                          color: Colors.teal))),
+                          color: Colors.teal,),),),
               DataColumn(
                   numeric: true,
-                  label: Text('المبيعات',
-                      style: TextStyle(
+                  label: Text(
+                      (isArabic!)?'المبيعات':"Sales",
+                      style:const TextStyle(
                           fontSize: 18.0,
                           fontWeight: FontWeight.bold,
-                          color: Colors.teal))),
+                          color: Colors.teal,),),),
             ],
             rows: state.branches.map((e) => buildDataRow(e, state.branches.indexOf(e), context)).toList(),
           );

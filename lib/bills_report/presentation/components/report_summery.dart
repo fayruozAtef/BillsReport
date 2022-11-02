@@ -2,11 +2,13 @@ import 'package:bills_report/bills_report/presentation/controller/branch_state.d
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../../core/cach_helper/cach_helper.dart';
+import '../../../core/utils/app_constant.dart';
 import '../controller/branch_bloc.dart';
 
 class ReportSummeryScreen extends StatelessWidget {
-  const ReportSummeryScreen({super.key});
-
+   ReportSummeryScreen({super.key});
+  final bool? isArabic=CashHelper.getBoolData(key: isArabicLanguage);
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<BranchBloc,BranchState>(
@@ -28,7 +30,8 @@ class ReportSummeryScreen extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Text('إجمالى عدد الفواتير : ',
+                      Text(
+                          (isArabic!)?'إجمالى عدد الفواتير : ':"Total number of bills: ",
                           style: GoogleFonts.abrilFatface(fontSize: 20.0)),
                       const SizedBox(width: 10.0,),
                       Text('${state.reportSummery.totalNumberOfInvoices}',
@@ -40,7 +43,8 @@ class ReportSummeryScreen extends StatelessWidget {
                   ),
                   Row(
                     children: [
-                      Text('إجمالى المبيعات : ',
+                      Text(
+                          (isArabic!)?'إجمالى المبيعات : ':"Total payment : ",
                           style: GoogleFonts.abrilFatface(fontSize: 20.0)),
 
                       const SizedBox(width: 10.0,),
